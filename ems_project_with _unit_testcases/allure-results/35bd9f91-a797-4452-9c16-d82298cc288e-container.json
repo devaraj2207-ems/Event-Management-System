@@ -1,0 +1,1 @@
+{"uuid":"35bd9f91-a797-4452-9c16-d82298cc288e","name":"testRegisterGroupSuccess()","children":["49823be0-f1bc-4b18-92b2-5d8df0271e1f"],"befores":[{"name":"setUp","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1776320098262,"stop":1776320098263}],"afters":[],"start":1776320098260,"stop":1776320098272}

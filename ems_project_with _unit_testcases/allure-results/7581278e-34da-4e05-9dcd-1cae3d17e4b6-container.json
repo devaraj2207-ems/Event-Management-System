@@ -1,0 +1,1 @@
+{"uuid":"7581278e-34da-4e05-9dcd-1cae3d17e4b6","name":"testDeleteEventNullId()","children":["25c73d8d-b04e-45b8-928f-c0c6d3de9a79"],"befores":[{"name":"setUp","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1776264584654,"stop":1776264584655}],"afters":[],"start":1776264584653,"stop":1776264584657}

@@ -1,0 +1,1 @@
+{"uuid":"fc4ce7c1-f7b8-41b1-8650-e478bc56342e","name":"testRegisterGroupWrongTeamSize()","children":["0fc35f81-28e1-47cb-887a-f11758fc8561"],"befores":[{"name":"setUp","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1776264584530,"stop":1776264584531}],"afters":[],"start":1776264584529,"stop":1776264584533}

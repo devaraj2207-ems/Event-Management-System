@@ -1,0 +1,9 @@
+# Google Cloud Build configuration for Java (Maven)
+steps:
+- name: 'gcr.io/cloud-builders/mvn'
+  args: ['clean', 'package', '-DskipTests']
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy', 'app.yaml', '--quiet']
+artifacts:
+  files:
+    - target/*.jar

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Individual Event Registration</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style data-purpose="typography">
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+<style data-purpose="custom-shadows">
+    /* Custom soft shadow to match the reference UI */
+    .card-shadow {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+    .button-shadow {
+      box-shadow: 0 8px 15px rgba(0, 82, 204, 0.2);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen text-[#334155]">
+<!-- BEGIN: NavigationBar -->
+<nav class="bg-white border-b border-gray-100 px-8 py-4 flex justify-between items-center" data-purpose="main-navigation">
+<div class="text-xl font-bold tracking-tight text-[#1e293b]" id="brand-logo" style="">
+      EMS
+    </div>
+<div class="flex items-center space-x-12 text-sm font-medium text-gray-500">
+<a class="hover:text-blue-600 transition-colors" href="events.html">Events</a>
+<a class="hover:text-blue-600 transition-colors" href="dashboard.html">MyEvents</a>
+</div>
+<div>
+<a href="/logout" class="nav-link text-sm font-medium text-gray-400 hover:text-gray-900 tracking-widest uppercase">LOGOUT</a>
+</div>
+</nav>
+<!-- END: NavigationBar -->
+<!-- BEGIN: MainContent -->
+<main class="max-w-5xl mx-auto py-16 px-4">
+<!-- BEGIN: HeaderSection -->
+<header class="mb-12 text-center sm:text-left">
+<h1 class="text-4xl font-bold text-[#334155] tracking-tight" style="">
+        Individual Event Registration
+      </h1>
+</header>
+<!-- END: HeaderSection -->
+<div id="messageContainer" class="mb-8 p-4 rounded-lg hidden"></div>
+<!-- BEGIN: FormContainer -->
+<section class="bg-white rounded-lg card-shadow p-12" data-purpose="registration-form-card">
+<form action="/register-individual" method="POST">
+<input type="hidden" id="event_id" name="eventId" value="" />
+<!-- BEGIN: RegistrationDetailsSection -->
+<div class="bg-[#f8fafc] rounded-md p-8 mb-10" data-purpose="registration-details-section">
+<h2 class="text-[#0052cc] font-semibold text-lg mb-6" style="">Registration Details</h2>
+<!-- 2-Column Grid for Form Fields -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+<!-- Event Name (Read-only) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="">Event Name</label>
+<input id="event_name" name="eventName" class="w-full bg-[#f1f5f9] border-none rounded py-3 px-4 text-gray-600 focus:ring-0 cursor-not-allowed" readonly="" type="text" value="Annual Tech Symposium 2024"/>
+</div>
+<!-- Event Date (Read-only) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="">Event Date</label>
+<input id="event_date" name="eventDate" class="w-full bg-[#f1f5f9] border-none rounded py-3 px-4 text-gray-600 focus:ring-0 cursor-not-allowed" readonly="" type="text" value="24th October 2024"/>
+</div>
+<!-- Username (Read-only) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="">Username</label>
+<input id="user_name" class="w-full bg-[#f1f5f9] border-none rounded py-3 px-4 text-gray-600 focus:ring-0 cursor-not-allowed" readonly="" type="text" value="John Doe"/>
+</div>
+<!-- Email ID (Read-only) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="">Email ID</label>
+<input id="user_email" class="w-full bg-[#f1f5f9] border-none rounded py-3 px-4 text-gray-600 focus:ring-0 cursor-not-allowed" readonly="" type="email" value="john.doe@company.com"/>
+</div>
+<!-- Employee ID (Input) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="">Employee ID</label>
+<input name="employeeId" required pattern="^[A-Za-z0-9]+$" title="Employee ID must be alphanumeric" class="w-full bg-white border border-gray-200 rounded py-3 px-4 text-[#1e293b] focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all outline-none" placeholder="Enter Employee ID" autocomplete="organization" type="text"/>
+</div>
+<!-- Mobile Number (Input) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider" style="">Mobile Number</label>
+<input name="mobileNumber" required pattern="[0-9]{10}" inputmode="numeric" maxlength="10" title="Mobile number must be 10 digits" class="w-full bg-white border border-gray-200 rounded py-3 px-4 text-[#1e293b] focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all outline-none" placeholder="Enter 10-digit mobile number" autocomplete="tel" type="text"/>
+</div>
+</div>
+</div>
+<!-- END: RegistrationDetailsSection -->
+<!-- BEGIN: ActionSection -->
+<div class="mt-12 flex justify-center">
+<button class="w-full md:max-w-2xl bg-[#0052cc] hover:bg-[#0047b3] text-white font-medium py-4 rounded-md transition-all duration-200 button-shadow text-lg" data-purpose="submit-registration-button" style="" type="submit">
+          Submit
+        </button>
+</div>
+<!-- END: ActionSection -->
+</form>
+</section>
+<!-- END: FormContainer -->
+</main>
+<!-- END: MainContent -->
+<script>
+  function getQueryParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  function showUserMessage() {
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
+    const success = params.get('success');
+    const container = document.getElementById('messageContainer');
+    if (!container) return;
+    if (error) {
+      container.textContent = '• ' + decodeURIComponent(error).replace(/\+/g, ' ');
+      container.className = 'mb-8 p-4 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700';
+      container.classList.remove('hidden');
+    } else if (success) {
+      container.textContent = decodeURIComponent(success).replace(/\+/g, ' ');
+      container.className = 'mb-8 p-4 rounded-lg bg-green-50 border border-green-200 text-sm text-green-700';
+      container.classList.remove('hidden');
+    }
+  }
+
+  async function loadEventDetails() {
+    const eventId = getQueryParam('eventId');
+    if (!eventId) {
+      window.location.href = '/events.html';
+      return;
+    }
+    document.getElementById('event_id').value = eventId;
+    try {
+      const response = await fetch('/api/events');
+      if (!response.ok) {
+        window.location.href = '/events.html';
+        return;
+      }
+      const events = await response.json();
+      const event = events.find(e => String(e.id) === eventId);
+      if (!event) {
+        window.location.href = '/events.html';
+        return;
+      }
+      document.getElementById('event_name').value = event.name;
+      document.getElementById('event_date').value = event.eventDate;
+    } catch (error) {
+      console.error('Unable to load event details', error);
+      window.location.href = '/events.html';
+    }
+  }
+
+  async function loadCurrentUser() {
+    try {
+      const response = await fetch('/api/current-user');
+      if (!response.ok) {
+        window.location.href = '/index.html';
+        return;
+      }
+      const data = await response.json();
+      document.getElementById('user_name').value = data.fullName || '';
+      document.getElementById('user_email').value = data.email || '';
+    } catch (error) {
+      console.error('Unable to load user information', error);
+      window.location.href = '/index.html';
+    }
+  }
+  showUserMessage();
+  loadEventDetails();
+  loadCurrentUser();
+</script>
+</body></html>

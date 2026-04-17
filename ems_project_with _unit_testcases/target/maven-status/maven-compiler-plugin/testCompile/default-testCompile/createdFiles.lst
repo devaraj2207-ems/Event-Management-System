@@ -1,0 +1,5 @@
+org\ems\AuthControllerTest.class
+org\ems\ApiControllerTest.class
+org\ems\EMSServiceTest.class
+org\ems\RegistrationControllerTest.class
+org\ems\ExtentReportListener.class

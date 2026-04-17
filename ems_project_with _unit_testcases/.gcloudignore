@@ -1,0 +1,14 @@
+# .gcloudignore tells gcloud which files/folders to skip when deploying
+.git
+.gitignore
+node_modules
+*.log
+target
+allure-results
+*.iml
+*.class
+*.jar
+*.war
+*.ear
+.idea
+*.md

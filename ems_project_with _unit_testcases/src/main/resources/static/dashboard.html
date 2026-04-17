@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EMS - My Registered Events</title>
+<!-- Tailwind CSS v3 CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style data-purpose="typography">
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc; /* Very light background matching the image aesthetic */
+    }
+  </style>
+<style data-purpose="table-layout">
+    /* Specific styling to match the clean, generous spacing of the table in the image */
+    .events-table-container {
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      background-color: #ffffff;
+      overflow: hidden;
+    }
+    
+    .events-table th {
+      background-color: #f9fafb;
+      color: #6b7280;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 1rem 1.5rem;
+      text-align: left;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .events-table td {
+      padding: 1.5rem;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .events-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Mimicking the alternating/empty row appearance from the image */
+    .row-placeholder {
+      height: 4rem;
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+<!-- BEGIN: MainHeader -->
+<header class="bg-white border-b border-gray-100" data-purpose="navigation-bar">
+<div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+<!-- Logo -->
+<div class="flex items-center">
+<span class="text-xl font-bold tracking-tight text-gray-900">EMS</span>
+</div>
+<!-- Navigation Links -->
+<nav class="flex items-center space-x-12" data-purpose="main-nav">
+<a class="text-sm font-medium text-gray-500 hover:text-gray-900" href="events.html">Events</a>
+<a class="text-sm font-medium text-gray-900" href="#">MyEvents</a>
+</nav>
+<!-- Logout Button -->
+<div class="flex items-center">
+<a class="nav-link text-sm font-medium text-gray-400 hover:text-gray-900 tracking-widest uppercase" href="/logout">LOGOUT</a>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: MainContent -->
+<main class="max-w-7xl mx-auto px-6 py-12">
+<!-- Welcome Message Section -->
+<div class="mb-8" data-purpose="user-greeting">
+<h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Welcome, <span id="userFullName">User</span></h1>
+</div>
+<!-- Page Title -->
+<h2 class="text-2xl font-bold text-gray-700 mb-6" data-purpose="page-title">My Registered Events</h2>
+<!-- BEGIN: EventsTableSection -->
+<section class="events-table-container shadow-sm" data-purpose="registered-events-list">
+<table class="w-full events-table border-collapse">
+<thead>
+<tr>
+<th class="w-1/5" scope="col">Event Name</th><th class="w-1/6" scope="col">Event Type</th>
+<th class="w-1/5" scope="col">Organizer</th>
+<th class="w-1/5" scope="col">Event Date</th>
+<th class="w-1/5" scope="col">Venue</th>
+<th class="w-1/5" scope="col">Status</th>
+</tr>
+</thead>
+<tbody id="registered-events-body">
+<tr class="row-placeholder">
+<td colspan="6" class="text-center py-12 text-gray-400">Loading your events...</td>
+</tr>
+</tbody>
+</table>
+</section>
+<!-- END: EventsTableSection -->
+</main>
+<!-- END: MainContent -->
+<script>
+  async function loadDashboardData() {
+    try {
+      // Load current user info
+      const userResponse = await fetch('/api/current-user');
+      if (!userResponse.ok) {
+        window.location.href = '/index.html';
+        return;
+      }
+      const userData = await userResponse.json();
+      document.getElementById('userFullName').textContent = userData.fullName || 'User';
+      
+      // Load dashboard events
+      const dashboardResponse = await fetch('/api/dashboard');
+      if (!dashboardResponse.ok) return;
+      const events = await dashboardResponse.json();
+      
+      const tbody = document.querySelector('tbody');
+      tbody.innerHTML = '';
+      
+      if (events.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-500">No registered events</td></tr>';
+        return;
+      }
+      
+      events.forEach(event => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="px-6 py-5 text-sm text-gray-900">${event.eventName}</td>
+          <td class="px-6 py-5 text-sm text-gray-600">${event.eventType}</td>
+          <td class="px-6 py-5 text-sm text-gray-600">${event.organizer}</td>
+          <td class="px-6 py-5 text-sm text-gray-600">${event.eventDate}</td>
+          <td class="px-6 py-5 text-sm text-gray-600">${event.venue}</td>
+          <td class="px-6 py-5 text-sm"><span class="px-3 py-1 rounded ${event.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${event.status}</span></td>
+        `;
+        tbody.appendChild(row);
+      });
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+    }
+  }
+  
+  loadDashboardData();
+</script>
+</body></html>

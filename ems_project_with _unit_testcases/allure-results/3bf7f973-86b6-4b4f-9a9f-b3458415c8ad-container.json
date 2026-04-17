@@ -1,0 +1,1 @@
+{"uuid":"3bf7f973-86b6-4b4f-9a9f-b3458415c8ad","name":"testGetEventNullId()","children":["97e0a5c0-73b4-4a03-abd2-816eac8896f0"],"befores":[{"name":"setUp","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1776264665834,"stop":1776264666261}],"afters":[],"start":1776264665827,"stop":1776264666266}

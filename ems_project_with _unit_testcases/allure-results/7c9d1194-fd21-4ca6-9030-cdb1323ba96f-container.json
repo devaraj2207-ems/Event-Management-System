@@ -1,0 +1,1 @@
+{"uuid":"7c9d1194-fd21-4ca6-9030-cdb1323ba96f","name":"testCountParticipantsGroup()","children":["7b07cd76-92fe-45a9-afbc-c535717e4dad"],"befores":[{"name":"setUp","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1776264342911,"stop":1776264342912}],"afters":[],"start":1776264342910,"stop":1776264342915}

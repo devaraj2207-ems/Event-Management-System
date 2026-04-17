@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Group Event Registration</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols for icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="typography">
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+<style data-purpose="custom-shadows">
+    .card-shadow {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+    .button-shadow {
+      box-shadow: 0 8px 15px rgba(0, 82, 204, 0.2);
+    }
+  </style>
+</head>
+<body class="bg-[#f8fafc] min-h-screen text-[#334155]">
+<!-- BEGIN: NavigationBar -->
+<nav class="bg-white border-b border-gray-100 px-8 py-6 flex justify-between items-center" data-purpose="main-navigation">
+<div class="text-xl font-bold tracking-tight text-[#1e293b]" id="brand-logo">
+      EMS
+    </div>
+<div class="flex items-center space-x-12 text-sm font-medium text-gray-500">
+<a class="hover:text-blue-600 transition-colors" href="events.html">Events</a>
+<a class="hover:text-blue-600 transition-colors" href="dashboard.html">MyEvents</a>
+</div>
+<div class="text-sm font-medium text-gray-400 hover:text-gray-600 cursor-pointer uppercase">
+      <a class="nav-link text-sm font-medium text-gray-400 hover:text-gray-900 tracking-widest uppercase" href="/logout">LOGOUT</a>
+    </div>
+</nav>
+<!-- END: NavigationBar -->
+<!-- BEGIN: MainContent -->
+<main class="max-w-5xl mx-auto py-16 px-4">
+<!-- BEGIN: HeaderSection -->
+<header class="mb-12">
+<h1 class="text-4xl font-bold text-[#334155] tracking-tight">
+        Group Event Registration
+      </h1>
+</header>
+<!-- END: HeaderSection -->
+<!-- BEGIN: FormContainer -->
+<section class="bg-white rounded-lg card-shadow p-12" data-purpose="registration-form-card">
+<div id="errorMessage" class="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700 hidden"></div>
+<form action="/register-group" method="POST">
+<input type="hidden" id="event_id" name="eventId" value="" />
+<!-- BEGIN: TeamLeaderSection -->
+<div class="bg-[#f8fafc] rounded-md p-8 mb-10" data-purpose="team-leader-section">
+<h2 class="text-[#0052cc] font-semibold text-lg mb-8">Team Leader</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
+<!-- Event Name (Pre-filled style) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Event Name</label>
+<input id="event_name" name="eventName" class="w-full bg-[#f1f5f9] border-none rounded py-3 px-4 text-gray-600 focus:ring-0 cursor-not-allowed" readonly="" type="text" value="Annual Tech Symposium 2024"/>
+</div>
+<!-- Event Date (Pre-filled style) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Event Date</label>
+<input id="event_date" name="eventDate" class="w-full bg-[#f1f5f9] border-none rounded py-3 px-4 text-gray-600 focus:ring-0 cursor-not-allowed" readonly="" type="text" value="24th October 2024"/>
+</div>
+<!-- Team Leader Name (Pre-filled style) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Team Leader Name</label>
+<input id="user_name" class="w-full bg-[#f1f5f9] border-none rounded py-3 px-4 text-gray-600 focus:ring-0 cursor-not-allowed" readonly="" type="text" value="John Doe"/>
+</div>
+<!-- Email ID (Pre-filled style) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Email ID</label>
+<input id="user_email" class="w-full bg-[#f1f5f9] border-none rounded py-3 px-4 text-gray-600 focus:ring-0 cursor-not-allowed" readonly="" type="email" value="john.doe@company.com"/>
+</div>
+<!-- Employee ID (Input) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Employee ID</label>
+<input name="employeeId" required pattern="^[A-Za-z0-9]+$" title="Employee ID must be alphanumeric" class="w-full bg-white border border-gray-200 rounded py-3 px-4 text-[#1e293b] placeholder:text-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all outline-none" placeholder="Enter Employee ID" autocomplete="organization" type="text"/>
+</div>
+<!-- Mobile Number (Input) -->
+<div class="flex flex-col space-y-2">
+<label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Mobile Number</label>
+<input name="mobileNumber" required pattern="[0-9]{10}" inputmode="numeric" maxlength="10" title="Mobile number must be 10 digits" class="w-full bg-white border border-gray-200 rounded py-3 px-4 text-[#1e293b] placeholder:text-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all outline-none" placeholder="Enter 10-digit mobile number" autocomplete="tel" type="text"/>
+</div>
+</div>
+</div>
+<!-- END: TeamLeaderSection -->
+<!-- BEGIN: TeamMembersSection -->
+<div class="mb-10" data-purpose="team-members-section">
+<h2 class="text-[#1e293b] font-bold text-lg mb-8">Team Members</h2>
+<p id="participant-count-notice" class="text-sm text-slate-500 mb-4">Participant per team: <span id="participant-count-value">0</span></p>
+<div class="space-y-4" id="team-members-container">
+<!-- Member Row 1 -->
+<div class="flex items-center space-x-4">
+<div class="bg-[#f1f5f9] text-[#0052cc] font-bold w-12 h-12 flex items-center justify-center rounded">1</div>
+<div class="relative flex-grow">
+<input class="w-full bg-white border border-gray-200 rounded py-3 px-4 text-[#1e293b] placeholder:text-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all outline-none" name="team_member" placeholder="Member Employee ID" required type="text"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-red-400 transition-colors" type="button" onclick="removeTeamMember(this)">
+<span class="material-symbols-outlined text-xl">do_not_disturb_on</span>
+</button>
+</div>
+</div>
+
+</div>
+<button id="add-member-button" class="mt-6 flex items-center text-[#0052cc] font-semibold text-sm hover:text-[#0047b3] transition-colors" type="button" onclick="addTeamMember()">
+<span class="material-symbols-outlined mr-2">add_circle</span>
+          Add Member
+        </button>
+</div>
+<!-- END: TeamMembersSection -->
+<!-- BEGIN: ActionSection -->
+<div class="pt-6 border-t border-gray-50 flex justify-center">
+<button class="w-full bg-[#0052cc] hover:bg-[#0047b3] text-white font-semibold py-4 rounded-md transition-all duration-200 button-shadow text-lg" type="submit">
+          Register Team
+        </button>
+</div>
+<!-- END: ActionSection -->
+</form>
+</section>
+<!-- END: FormContainer -->
+</main>
+<!-- END: MainContent -->
+<script>
+  let eventTeamLimit = 0;
+  let eventCapacity = 0;
+  let currentParticipants = 0;
+  let eventType = '';
+
+  function getQueryParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  function getTeamMemberCount() {
+    return document.querySelectorAll('[name="team_member"]').length;
+  }
+
+  function updateTeamMemberControls() {
+    const memberInputs = document.querySelectorAll('[name="team_member"]');
+    const filledCount = Array.from(memberInputs).filter(input => input.value.trim()).length;
+    const memberCount = memberInputs.length;
+    const addButton = document.getElementById('add-member-button');
+    const participantCountValue = document.getElementById('participant-count-value');
+    const totalParticipants = 1 + memberCount; // leader + member fields
+    participantCountValue.textContent = totalParticipants;
+    
+    const requiredMembers = eventTeamLimit - 1;
+    const canAdd = memberCount < requiredMembers && (1 + memberCount + currentParticipants < eventCapacity);
+    if (canAdd) {
+      addButton.disabled = false;
+      addButton.classList.remove('opacity-50', 'cursor-not-allowed');
+    } else {
+      addButton.disabled = true;
+      addButton.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+    document.querySelectorAll('#team-members-container > div').forEach((row, index) => {
+      const badge = row.querySelector('div');
+      if (badge) {
+        badge.textContent = String(index + 1);
+      }
+    });
+  }
+
+  function addTeamMember() {
+    const memberInputs = document.querySelectorAll('[name="team_member"]');
+    const filledCount = Array.from(memberInputs).filter(input => input.value.trim()).length;
+    const memberCount = memberInputs.length;
+    const requiredMembers = eventTeamLimit - 1;
+    if (memberCount >= requiredMembers) {
+      alert(`Cannot add more members. Required: ${requiredMembers}`);
+      return;
+    }
+    if (1 + memberCount + currentParticipants >= eventCapacity) {
+      alert('Adding this member would exceed the event capacity.');
+      return;
+    }
+    const container = document.getElementById('team-members-container');
+    const currentCount = memberInputs.length;
+    const newRow = document.createElement('div');
+    newRow.className = 'flex items-center space-x-4';
+    newRow.innerHTML = `
+      <div class="bg-[#f1f5f9] text-[#0052cc] font-bold w-12 h-12 flex items-center justify-center rounded">${currentCount + 1}</div>
+      <div class="relative flex-grow">
+        <input class="w-full bg-white border border-gray-200 rounded py-3 px-4 text-[#1e293b] placeholder:text-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all outline-none" name="team_member" placeholder="Member Employee ID" required pattern="^[A-Za-z0-9]+$" title="Employee ID must be alphanumeric" type="text"/>
+        <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-red-400 transition-colors" type="button" onclick="removeTeamMember(this)">
+          <span class="material-symbols-outlined text-xl">do_not_disturb_on</span>
+        </button>
+      </div>
+    `;
+    container.appendChild(newRow);
+    // Add listener to new input
+    newRow.querySelector('[name="team_member"]').addEventListener('input', updateTeamMemberControls);
+    updateTeamMemberControls();
+  }
+
+  function removeTeamMember(button) {
+    const row = button.closest('div.flex.items-center.space-x-4');
+    if (row) {
+      row.remove();
+      updateTeamMemberControls();
+    }
+  }
+
+  async function loadEventDetails() {
+    const eventId = getQueryParam('eventId');
+    if (!eventId) {
+      window.location.href = '/events.html';
+      return;
+    }
+    document.getElementById('event_id').value = eventId;
+    try {
+      const response = await fetch('/api/events');
+      if (!response.ok) {
+        window.location.href = '/events.html';
+        return;
+      }
+      const events = await response.json();
+      const event = events.find(e => String(e.id) === eventId);
+      if (!event) {
+        window.location.href = '/events.html';
+        return;
+      }
+      document.getElementById('event_name').value = event.name;
+      document.getElementById('event_date').value = event.eventDate;
+      eventType = event.type;
+      eventTeamLimit = Number(event.teamSize) || 0;
+      eventCapacity = Number(event.capacity) || 0;
+      currentParticipants = Number(event.registeredCount) || 0;
+      // Initialize team member fields
+      const requiredMembers = eventTeamLimit - 1;
+      const container = document.getElementById('team-members-container');
+      container.innerHTML = ''; // Clear existing
+      for (let i = 0; i < requiredMembers; i++) {
+        const newRow = document.createElement('div');
+        newRow.className = 'flex items-center space-x-4';
+        newRow.innerHTML = `
+          <div class="bg-[#f1f5f9] text-[#0052cc] font-bold w-12 h-12 flex items-center justify-center rounded">${i + 1}</div>
+          <div class="relative flex-grow">
+            <input class="w-full bg-white border border-gray-200 rounded py-3 px-4 text-[#1e293b] placeholder:text-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all outline-none" name="team_member" placeholder="Member Employee ID" required pattern="^[A-Za-z0-9]+$" title="Employee ID must be alphanumeric" type="text"/>
+            <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-red-400 transition-colors" type="button" onclick="removeTeamMember(this)">
+              <span class="material-symbols-outlined text-xl">do_not_disturb_on</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(newRow);
+      }
+      updateTeamMemberControls();
+      // Add listeners to inputs
+      document.querySelectorAll('[name="team_member"]').forEach(input => {
+        input.addEventListener('input', updateTeamMemberControls);
+      });
+    } catch (error) {
+      console.error('Unable to load event details', error);
+      window.location.href = '/events.html';
+    }
+  }
+
+  function validateTeamMembers() {
+    const memberInputs = Array.from(document.querySelectorAll('[name="team_member"]'));
+    const values = memberInputs.map(input => input.value.trim()).filter(Boolean);
+    const requiredMembers = eventTeamLimit - 1;
+    if (values.length < requiredMembers) {
+      const more = requiredMembers - values.length;
+      showError(`Please add ${more} more team member${more > 1 ? 's' : ''}.`);
+      return false;
+    } else if (values.length > requiredMembers) {
+      const less = values.length - requiredMembers;
+      showError(`Please remove ${less} team member${less > 1 ? 's' : ''}.`);
+      return false;
+    }
+    const duplicates = values.filter((value, index) => values.indexOf(value) !== index);
+    if (duplicates.length > 0) {
+      showError('Duplicate team member IDs are not allowed. Please remove duplicates.');
+      return false;
+    }
+    if (1 + values.length + currentParticipants > eventCapacity) {
+      showError('This registration would exceed the event capacity.');
+      return false;
+    }
+    hideError();
+    return true;
+  }
+
+  function showError(message) {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.innerHTML = '• ' + message;
+    errorDiv.classList.remove('hidden');
+  }
+
+  function hideError() {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.classList.add('hidden');
+  }
+
+  function showErrorFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
+    if (error) {
+      showError(error);
+    }
+  }
+
+  async function loadCurrentUser() {
+    try {
+      const response = await fetch('/api/current-user');
+      if (!response.ok) {
+        window.location.href = '/index.html';
+        return;
+      }
+      const data = await response.json();
+      document.getElementById('user_name').value = data.fullName || '';
+      document.getElementById('user_email').value = data.email || '';
+    } catch (error) {
+      console.error('Unable to load user information', error);
+      window.location.href = '/index.html';
+    }
+  }
+
+  document.querySelector('form').addEventListener('submit', function(event) {
+    if (!validateTeamMembers()) {
+      event.preventDefault();
+    }
+  });
+
+  loadEventDetails();
+  loadCurrentUser();
+  showErrorFromQuery();
+</script>
+</body></html>

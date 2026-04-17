@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EMS Login - Welcome</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Custom Font configuration or specific styles -->
+<style data-purpose="typography">
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="layout-adjustments">
+    /* Subtle background gradient to match the image's soft lighting */
+    body {
+      background-color: #f8fafc;
+      background: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 100%);
+    }
+    /* Input field specific styling for the light gray background */
+    .field-bg {
+      background-color: #f1f5f9;
+    }
+    
+    /* Hide native browser password reveal button and autofill decorations */
+    input[type="password"] {
+      font-size: 16px;
+    }
+    input[type="password"]::-webkit-credentials-auto-fill-button,
+    input[type="password"]::-webkit-autofill-button {
+      display: none !important;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    input[type="password"]::-webkit-outer-spin-button,
+    input[type="password"]::-webkit-inner-spin-button {
+      display: none !important;
+    }
+    input[type="password"]::placeholder {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- BEGIN: TopHeader -->
+<header class="border-b border-gray-100 p-8 w-full" data-purpose="main-header">
+<div class="max-w-7xl mx-auto">
+<h1 class="text-xl font-bold text-slate-800">EMS</h1>
+</div>
+</header>
+<!-- END: TopHeader -->
+<!-- BEGIN: MainContent -->
+<main class="flex-grow flex items-center justify-center px-4" data-purpose="login-container">
+<!-- BEGIN: LoginCard -->
+<section class="bg-white w-full max-w-md p-10 md:p-16 shadow-sm border border-slate-50 rounded-sm" data-purpose="login-card">
+<div class="mb-10">
+<h2 class="text-3xl font-bold text-slate-800">Welcome</h2>
+</div>
+<div id="errorMessage" class="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700 hidden"></div>
+<form action="/login" class="space-y-6" method="POST" onsubmit="return validateLoginForm(event)">
+<!-- Email Address Field -->
+<div class="space-y-2">
+<label class="block text-xs font-bold text-slate-500 tracking-wider uppercase" for="email">EMAIL ADDRESS</label>
+<input class="w-full field-bg border border-gray-200 rounded-none h-12 px-4 focus:ring-2 focus:ring-blue-500 transition-all" id="email" name="email" required="" type="email" pattern="^[a-z0-9._%+-]+@gmail\.com$" title="Email must be lowercase and use @gmail.com."/>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<label class="block text-xs font-bold text-slate-500 tracking-wider uppercase" for="password">PASSWORD</label>
+<div class="relative">
+<input class="w-full field-bg border border-gray-200 rounded-none h-12 px-4 pr-10 focus:ring-2 focus:ring-blue-500 transition-all" id="password" name="password" required="" minlength="8" maxlength="16" type="password" pattern="^[^\s,]+$" title="Password cannot contain spaces or commas."/>
+<button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700" onclick="togglePassword('password','togglePasswordIcon')" aria-label="Toggle password visibility">
+<span class="material-symbols-outlined" id="togglePasswordIcon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Forgot Password Link -->
+<div class="text-right">
+<a class="text-sm font-semibold text-blue-600 hover:text-blue-700" href="recover-password.html">Forgot password?</a>
+</div>
+<!-- Login Button -->
+<div class="pt-4">
+<button class="w-full bg-[#0056d2] hover:bg-blue-700 text-white font-bold py-4 px-4 uppercase tracking-wider transition-colors" type="submit">
+            LOGIN
+          </button>
+</div>
+</form>
+<!-- Footer Links within Card -->
+<div class="mt-10 text-center space-y-4">
+<p class="text-slate-600 text-sm">
+          New User? <a class="text-blue-600 font-semibold hover:underline" href="register.html">Create account</a>
+</p>
+<p class="text-slate-600 text-sm">
+          Are you an administrator? <a class="text-slate-900 font-bold hover:underline" href="admin-login.html">Admin Login</a>
+</p>
+</div>
+</section>
+<!-- END: LoginCard -->
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: FooterDecoration -->
+<footer class="py-8 flex justify-center space-x-4 opacity-10" data-purpose="footer-elements">
+<div class="w-20 h-1 bg-blue-400 rounded-full"></div>
+<div class="w-20 h-1 bg-blue-400 rounded-full"></div>
+<div class="w-20 h-1 bg-blue-400 rounded-full"></div>
+</footer>
+<!-- END: FooterDecoration -->
+<script>
+function validateLoginForm(event) {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const errorDiv = document.getElementById('errorMessage');
+    const errors = [];
+    
+    if (!email) errors.push('Email is required.');
+    else if (/[A-Z]/.test(email)) errors.push('Email must contain only lowercase letters.');
+    else if (!/^[a-z0-9._%+-]+@gmail\.com$/.test(email)) errors.push('Email must use the @gmail.com domain.');
+    else if (email.length > 40) errors.push('Email must not exceed 40 characters.');
+    
+    if (!password) errors.push('Password is required.');
+    else if (password.length < 8 || password.length > 16) errors.push('Password must be 8-16 characters.');
+    else if (/\s|,/.test(password)) errors.push('Password cannot contain spaces or commas.');
+    else if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password) || !/[^A-Za-z0-9\s,]/.test(password)) {
+        errors.push('Password must contain uppercase, lowercase, digit, and special character.');
+    }
+    
+    if (errors.length > 0) {
+        errorDiv.innerHTML = errors.map(e => '• ' + e).join('<br>');
+        errorDiv.classList.remove('hidden');
+        event.preventDefault();
+        return false;
+    }
+    errorDiv.classList.add('hidden');
+    return true;
+}
+
+function togglePassword(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (!input || !icon) return;
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility_off';
+    } else {
+        input.type = 'password';
+        icon.textContent = 'visibility';
+    }
+}
+
+// Display error or success messages from query parameters on page load
+window.addEventListener('load', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorMessage = urlParams.get('error');
+    const successMessage = urlParams.get('success');
+    const errorDiv = document.getElementById('errorMessage');
+    
+    if (errorMessage) {
+      errorDiv.innerHTML = '• ' + decodeURIComponent(errorMessage).replace(/\+/g, ' ');
+      errorDiv.classList.remove('hidden');
+    } else if (successMessage) {
+      errorDiv.innerHTML = decodeURIComponent(successMessage).replace(/\+/g, ' ');
+      errorDiv.classList.remove('hidden');
+      errorDiv.classList.remove('bg-red-50', 'border-red-200', 'text-red-700');
+      errorDiv.classList.add('bg-green-50', 'border-green-200', 'text-green-700');
+    }
+  });
+</script>
+</body></html>

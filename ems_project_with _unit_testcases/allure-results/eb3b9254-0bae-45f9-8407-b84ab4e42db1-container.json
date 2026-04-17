@@ -1,0 +1,1 @@
+{"uuid":"eb3b9254-0bae-45f9-8407-b84ab4e42db1","name":"testRegisterIndividualEventFull()","children":["48b58cc8-a51b-4cc7-bd89-9bcc2d7b779f"],"befores":[{"name":"setUp","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1776264412016,"stop":1776264412017}],"afters":[],"start":1776264412015,"stop":1776264412019}

@@ -1,0 +1,14 @@
+org\ems\config\DataLoader.class
+org\ems\repository\UserRepository.class
+org\ems\service\EMSService.class
+org\ems\controller\AuthController.class
+org\ems\controller\RegistrationController.class
+org\ems\model\Registration.class
+org\ems\Main.class
+org\ems\repository\EventRepository.class
+org\ems\model\User.class
+org\ems\config\SecurityConfig.class
+org\ems\controller\ApiController.class
+org\ems\config\OpenApiConfig.class
+org\ems\model\Event.class
+org\ems\repository\RegistrationRepository.class

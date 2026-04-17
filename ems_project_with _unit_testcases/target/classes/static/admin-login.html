@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Login - EMS</title>
+<!-- Tailwind CSS v3 CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for typography matching -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="base-styling">
+    body {
+      font-family: 'Inter', sans-serif;
+      /* Soft gradient background matching the image's subtle lighting */
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      min-height: 100vh;
+      margin: 0;
+    }
+  </style>
+<style data-purpose="custom-layout">
+    /* Specific styling for the login card and inputs to match visual details */
+    .login-card {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+    .field-bg {
+      background-color: #f1f5f9;
+    }
+    
+    /* Hide native browser password reveal button and autofill decorations */
+    input[type="password"] {
+      font-size: 16px;
+    }
+    input[type="password"]::-webkit-credentials-auto-fill-button,
+    input[type="password"]::-webkit-autofill-button {
+      display: none !important;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    input[type="password"]::-webkit-outer-spin-button,
+    input[type="password"]::-webkit-inner-spin-button {
+      display: none !important;
+    }
+    input[type="password"]::placeholder {
+      opacity: 0.7;
+    }
+    .input-field {
+      border: 1px solid #e5e7eb;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    }
+  </style>
+</head>
+<body class="flex flex-col">
+<!-- BEGIN: Top Navigation -->
+<nav class="border-b border-gray-100 p-8" data-purpose="top-navigation">
+<div class="text-xl font-bold text-gray-800 tracking-tight">EMS</div>
+</nav>
+<!-- END: Top Navigation -->
+<!-- BEGIN: Main Content -->
+<main class="flex-grow flex flex-col items-center justify-center -mt-20">
+<!-- BEGIN: Login Container -->
+<section class="w-full max-w-md px-4" data-purpose="login-form-container">
+<!-- BEGIN: Login Card -->
+<div class="bg-white rounded-md p-10 login-card" data-purpose="admin-login-card">
+<h1 class="text-3xl font-bold text-gray-900 mb-10">Admin Login</h1>
+<form action="/admin-login" class="space-y-6" method="POST" onsubmit="return validateAdminLoginForm(event)">
+<!-- Admin Email Input -->
+<div class="space-y-2">
+<label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider" for="admin_id">
+              Admin Email
+            </label>
+<input class="w-full field-bg border border-gray-200 rounded-none h-12 px-4 input-field focus:ring-2 focus:ring-blue-500 transition-all" id="admin_id" name="admin_id" required="" maxlength="40" autocomplete="username" type="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid lowercase email address."/>
+</div>
+<!-- Password Input -->
+<div class="space-y-2">
+<label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider" for="password">
+              Password
+            </label>
+<div class="relative">
+<input class="w-full field-bg border border-gray-200 rounded-none h-12 px-4 pr-10 input-field focus:ring-2 focus:ring-blue-500 transition-all" id="password" name="password" required="" minlength="8" maxlength="16" autocomplete="current-password" type="password" pattern="^[^\s,]+$" title="Password cannot contain spaces or commas."/>
+<button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700" onclick="togglePassword('password','togglePasswordIcon')" aria-label="Toggle password visibility">
+<span class="material-symbols-outlined" id="togglePasswordIcon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Error Message -->
+<div id="errorMessage" class="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700 hidden"></div>
+<!-- Login Button -->
+<div class="pt-4">
+<button class="w-full bg-[#0051cc] hover:bg-blue-700 text-white font-medium py-3 px-6 rounded flex items-center justify-center transition-colors duration-200" type="submit">
+<span>Login</span>
+<!-- Right Arrow Icon -->
+<svg class="h-4 w-4 ml-2" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</form>
+</div>
+<!-- END: Login Card -->
+<!-- Return Link Footer -->
+<footer class="mt-8 text-center" data-purpose="login-footer">
+<p class="text-[13px] text-gray-600">
+          Not an administrator? 
+          <a class="text-[#0051cc] hover:underline" href="index.html">Return to User Login</a>
+</p>
+</footer>
+</section>
+<!-- END: Login Container -->
+</main>
+<!-- END: Main Content -->
+<script>
+function validateAdminLoginForm(event) {
+    const adminId = document.getElementById('admin_id').value.trim();
+    const password = document.getElementById('password').value;
+    const errorDiv = document.getElementById('errorMessage');
+    const errors = [];
+    
+    if (!adminId) errors.push('Admin Email is required.');
+    else if (/[A-Z]/.test(adminId)) errors.push('Please enter a valid lowercase email address.');
+    else if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(adminId)) errors.push('Please enter a valid email address.');
+    else if (adminId.length > 40) errors.push('Admin Email must not exceed 40 characters.');
+    
+    if (!password) errors.push('Password is required.');
+    else if (password.length < 8 || password.length > 16) errors.push('Password must be 8-16 characters.');
+    else if (/\s|,/.test(password)) errors.push('Password cannot contain spaces or commas.');
+    else if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password) || !/[^A-Za-z0-9\s,]/.test(password)) {
+        errors.push('Password must contain uppercase, lowercase, digit, and special character.');
+    }
+    
+    if (errors.length > 0) {
+        errorDiv.innerHTML = errors.map(e => '• ' + e).join('<br>');
+        errorDiv.classList.remove('hidden');
+        event.preventDefault();
+        return false;
+    }
+    errorDiv.classList.add('hidden');
+    return true;
+}
+
+function togglePassword(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (!input || !icon) return;
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility_off';
+    } else {
+        input.type = 'password';
+        icon.textContent = 'visibility';
+    }
+}
+
+// Display error or success messages from query parameters on page load
+window.addEventListener('load', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorMessage = urlParams.get('error');
+    const successMessage = urlParams.get('success');
+    const errorDiv = document.getElementById('errorMessage');
+    
+    if (errorMessage) {
+      errorDiv.innerHTML = '• ' + decodeURIComponent(errorMessage).replace(/\+/g, ' ');
+      errorDiv.classList.remove('hidden');
+    } else if (successMessage) {
+      errorDiv.innerHTML = decodeURIComponent(successMessage).replace(/\+/g, ' ');
+      errorDiv.classList.remove('hidden');
+      errorDiv.classList.remove('bg-red-50', 'border-red-200', 'text-red-700');
+      errorDiv.classList.add('bg-green-50', 'border-green-200', 'text-green-700');
+    }
+  });
+</script>
+</body></html>

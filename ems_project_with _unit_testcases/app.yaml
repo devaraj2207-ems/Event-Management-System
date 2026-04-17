@@ -1,0 +1,10 @@
+runtime: java17
+instance_class: F1
+env_variables:
+  SUPABASE_URL: "REPLACE_WITH_YOUR_SUPABASE_URL"
+  SUPABASE_ANON_KEY: "REPLACE_WITH_YOUR_SUPABASE_ANON_KEY"
+  SUPABASE_SERVICE_ROLE_KEY: "REPLACE_WITH_YOUR_SUPABASE_SERVICE_ROLE_KEY"
+entrypoint: 'java -jar target/ems_project-1.0-SNAPSHOT.jar'
+handlers:
+  - url: /.*
+    script: auto
